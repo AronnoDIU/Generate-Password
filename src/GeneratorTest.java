@@ -24,7 +24,7 @@ class GeneratorTest {
 
     @Test
     void test3() {
-        assertEquals(secondAlphabet.getAlphabet(), Alphabet.LOWERCASE_LETTERS + Alphabet.NUMBERS + Alphabet.SYMBOLS);
+        assertEquals(secondAlphabet.getAlphabet(), Alphabet.LOWERCASE_LETTERS + Alphabet.NUMERIC_NUMBERS + Alphabet.SPECIAL_CHARACTERS);
     }
 
     @Test

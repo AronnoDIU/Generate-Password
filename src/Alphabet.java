@@ -1,27 +1,24 @@
 public class Alphabet {
     public static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
-    public static final String NUMBERS = "1234567890";
-    public static final String SYMBOLS = "!@#$%^&*()-_=+\\/~?";
+    public static final String NUMERIC_NUMBERS = "1234567890";
+    public static final String SPECIAL_CHARACTERS = "!@#$%^&*()-_=+\\/~?";
 
-    private final StringBuilder pool;
+    private final StringBuilder storeCharacters; // Create a StringBuilder object.
 
 
-    public Alphabet(boolean uppercaseIncluded, boolean lowercaseIncluded, boolean numbersIncluded, boolean specialCharactersIncluded) {
+    public Alphabet(boolean uppercaseIncluded, boolean lowercaseIncluded,
+                    boolean numericIncluded, boolean specialCharactersIncluded) {
 
-        pool = new StringBuilder();
+        storeCharacters = new StringBuilder();
 
-        if (uppercaseIncluded) pool.append(UPPERCASE_LETTERS);
-
-        if (lowercaseIncluded) pool.append(LOWERCASE_LETTERS);
-
-        if (numbersIncluded) pool.append(NUMBERS);
-
-        if (specialCharactersIncluded) pool.append(SYMBOLS);
-
+        if (uppercaseIncluded) storeCharacters.append(UPPERCASE_LETTERS);
+        if (lowercaseIncluded) storeCharacters.append(LOWERCASE_LETTERS);
+        if (numericIncluded) storeCharacters.append(NUMERIC_NUMBERS);
+        if (specialCharactersIncluded) storeCharacters.append(SPECIAL_CHARACTERS);
     }
 
     public String getAlphabet() {
-        return pool.toString();
+        return storeCharacters.toString();
     }
 }

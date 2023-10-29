@@ -16,8 +16,8 @@ public class Generator {
     }
 
     public void mainUserWindow() {
-        System.out.println("Welcome to Aronno's Password Services :)");
-        printMainMenu();
+        System.out.println("Welcome to Aronno's Generate Random Password Services :)");
+        displayMainMenu();
 
         String userOption = "-1"; // Default value(Initialize with invalid value).
 
@@ -28,29 +28,30 @@ public class Generator {
             switch (userOption) { // Switch on userOption value to perform different actions.
 
                 case "1" -> {
-                    passwordGenerator(); // Call requestPassword method and pass userINPUT.
-                    printMainMenu(); // Call printMenu method.
+                    passwordGenerator(); // Call passwordGenerator method and pass userINPUT.
+                    displayMainMenu(); // Call displayMainMenu method.
                 }
                 case "2" -> {
                     checkPassword(); // Call checkPassword method and pass userINPUT.
-                    printMainMenu();
+                    displayMainMenu();
                 }
                 case "3" -> {
-                    printGuidelineToGeneratePassword(); // Call printUsefulInfo method.
-                    printMainMenu();
+                    printGuidelineToGeneratePassword();
+                    displayMainMenu();
                 }
                 case "4" -> printQuitMessage(); // Call printQuitMessage method.
+
                 default -> { // If userOption is not equal to 1, 2, 3 or 4.
                     System.out.println();
-                    System.out.println("Kindly select one of the available commands");
-                    printMainMenu();
+                    System.out.println("Invalid input please try again with a valid option.");
+                    displayMainMenu();
                 }
             }
         }
     }
 
     private Password GeneratePassword(int length) {
-        final StringBuilder password = new StringBuilder();
+        final StringBuilder containPassword = new StringBuilder();
 
         final int alphabetLength = alphabet.getAlphabet().length();
 
@@ -60,9 +61,9 @@ public class Generator {
 
         for (int i = 0; i < length; i++) {
             int index = (int) (Math.random() * Range) + Minimum;
-            password.append(alphabet.getAlphabet().charAt(index));
+            containPassword.append(alphabet.getAlphabet().charAt(index));
         }
-        return new Password(password.toString());
+        return new Password(containPassword.toString());
     }
 
     private void printGuidelineToGeneratePassword() {
@@ -89,76 +90,79 @@ public class Generator {
         boolean IncludeNumericCase = false;
         boolean IncludeSpecialCase = false;
 
-        boolean correctParams;
+        boolean isParameterCorrect;
 
         System.out.println();
         System.out.println("""
-                Hello, welcome to the Generate Password Service.\s
+                Hello, welcome to the Generate Random Password Service.\s
                 To answer the following questions by 'Y' for Yes +
-                or 'N' for No to make a request for a password.""");
+                or 'N' for No to make a request for a random password.""");
 
         System.out.println();
 
         do {
-            String input;
-            correctParams = false;
+            String input; // Initialize input.
+            isParameterCorrect = false; // Reset isParameterCorrect.
 
             do {
                 System.out.println("Do you want Lowercase letters \"abcd...\" to be used? ");
                 input = userINPUT.next();
                 PasswordRequestError(input);
-            } while (!input.equalsIgnoreCase("yes") && !input.equalsIgnoreCase("no"));
+            } while (!input.equalsIgnoreCase("Y")
+                    && !input.equalsIgnoreCase("N"));
 
-            if (isInclude(input)) IncludeLowerCase = true;
+            if (isInclude(input)) IncludeLowerCase = true; // Update IncludeLowerCase.
 
             do {
                 System.out.println("Do you want Uppercase letters \"ABCD...\" to be used? ");
                 input = userINPUT.next();
                 PasswordRequestError(input);
-            } while (!input.equalsIgnoreCase("yes") && !input.equalsIgnoreCase("no"));
+            } while (!input.equalsIgnoreCase("Y")
+                    && !input.equalsIgnoreCase("N"));
 
-            if (isInclude(input)) IncludeUpperCase = true;
+            if (isInclude(input)) IncludeUpperCase = true; // Update IncludeUpperCase.
 
             do {
                 System.out.println("Do you want Numbers \"1234...\" to be used? ");
                 input = userINPUT.next();
                 PasswordRequestError(input);
-            } while (!input.equalsIgnoreCase("yes") && !input.equalsIgnoreCase("no"));
+            } while (!input.equalsIgnoreCase("Y")
+                    && !input.equalsIgnoreCase("N"));
 
-            if (isInclude(input)) IncludeNumericCase = true;
+            if (isInclude(input)) IncludeNumericCase = true; // Update IncludeNumericCase.
 
             do {
-                System.out.println("Do you want Symbols \"!@#$...\" to be used? ");
+                System.out.println("Do you want Special Characters \"!@#$...\" to be used? ");
                 input = userINPUT.next();
                 PasswordRequestError(input);
-            } while (!input.equalsIgnoreCase("yes") && !input.equalsIgnoreCase("no"));
+            } while (!input.equalsIgnoreCase("Y")
+                    && !input.equalsIgnoreCase("N"));
 
-            if (isInclude(input)) IncludeSpecialCase = true;
+            if (isInclude(input)) IncludeSpecialCase = true; // Update IncludeSpecialCase.
 
-            //No Pool Selected
-            if (!IncludeUpperCase && !IncludeLowerCase && !IncludeNumericCase && !IncludeSpecialCase) {
+            // Check if no parameters are selected, ask the user to select at least one.
+            if (!IncludeUpperCase && !IncludeLowerCase
+                    && !IncludeNumericCase && !IncludeSpecialCase) {
                 System.out.println("You have selected no characters to generate your " +
                         "password, at least one of your answers should be Yes\n");
-                correctParams = true;
+                isParameterCorrect = true; // Update isParameterCorrect.
             }
 
-        } while (correctParams);
+        } while (isParameterCorrect); // Keep asking the user to select at least one parameter.
 
         System.out.println("Great! Now enter the length of the password");
-        int length = userINPUT.nextInt();
+        int length = userINPUT.nextInt(); // Get the length of the password.
 
-        final Generator generator = new Generator(IncludeUpperCase, IncludeLowerCase, IncludeNumericCase, IncludeSpecialCase);
+        final Generator generator = new Generator(IncludeUpperCase,
+                IncludeLowerCase, IncludeNumericCase, IncludeSpecialCase);
+
         final Password password = generator.GeneratePassword(length);
 
         System.err.println("Your generated password -> " + password);
     }
 
     private boolean isInclude(String Input) {
-        if (Input.equalsIgnoreCase("yes")) {
-            return true;
-        } else {
-            return false;
-        }
+        return Input.equalsIgnoreCase("yes");
     }
 
     private void PasswordRequestError(String i) {
@@ -178,16 +182,16 @@ public class Generator {
         System.out.println(p.calculateScore());
     }
 
-    private void printMainMenu() {
+    private void displayMainMenu() {  // Prints the main menu of the program.
         System.out.println();
-        System.out.println("Enter 1 - Password Generator");
+        System.out.println("Enter 1 - Generate Random Password");
         System.out.println("Enter 2 - Password Strength Check");
-        System.out.println("Enter 3 - Useful Information");
-        System.out.println("Enter 4 - Quit");
-        System.out.print("Choice:");
+        System.out.println("Enter 3 - Useful Information for Passwords");
+        System.out.println("Enter 4 - Quit the Program");
+        System.out.print("Choice: ");
     }
 
     private void printQuitMessage() {
-        System.out.println("Closing the program bye bye!");
+        System.out.println("Closing the program! Thank you for using the services!");
     }
 }
