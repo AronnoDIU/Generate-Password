@@ -32,7 +32,7 @@ public class Generator {
                     displayMainMenu(); // Call displayMainMenu method.
                 }
                 case "2" -> {
-                    checkPassword(); // Call checkPassword method and pass userINPUT.
+                    checkPasswordStrength(); // Call checkPassword method and pass userINPUT.
                     displayMainMenu();
                 }
                 case "3" -> {
@@ -84,6 +84,10 @@ public class Generator {
                 "combination of the aforementioned weak components");
     }
 
+    private boolean isInclude(String Input) {
+        return Input.equalsIgnoreCase("Y");
+    }
+
     private void passwordGenerator() {
         boolean IncludeUpperCase = false;
         boolean IncludeLowerCase = false;
@@ -107,7 +111,7 @@ public class Generator {
             do {
                 System.out.println("Do you want Lowercase letters \"abcd...\" to be used? ");
                 input = userINPUT.next();
-                PasswordRequestError(input);
+                InputErrorCase(input); // Check if input is Y or N. Otherwise throw an error.
             } while (!input.equalsIgnoreCase("Y")
                     && !input.equalsIgnoreCase("N"));
 
@@ -116,7 +120,7 @@ public class Generator {
             do {
                 System.out.println("Do you want Uppercase letters \"ABCD...\" to be used? ");
                 input = userINPUT.next();
-                PasswordRequestError(input);
+                InputErrorCase(input);
             } while (!input.equalsIgnoreCase("Y")
                     && !input.equalsIgnoreCase("N"));
 
@@ -125,7 +129,7 @@ public class Generator {
             do {
                 System.out.println("Do you want Numbers \"1234...\" to be used? ");
                 input = userINPUT.next();
-                PasswordRequestError(input);
+                InputErrorCase(input);
             } while (!input.equalsIgnoreCase("Y")
                     && !input.equalsIgnoreCase("N"));
 
@@ -134,7 +138,7 @@ public class Generator {
             do {
                 System.out.println("Do you want Special Characters \"!@#$...\" to be used? ");
                 input = userINPUT.next();
-                PasswordRequestError(input);
+                InputErrorCase(input);
             } while (!input.equalsIgnoreCase("Y")
                     && !input.equalsIgnoreCase("N"));
 
@@ -161,25 +165,24 @@ public class Generator {
         System.err.println("Your generated password -> " + password);
     }
 
-    private boolean isInclude(String Input) {
-        return Input.equalsIgnoreCase("yes");
-    }
-
-    private void PasswordRequestError(String i) {
-        if (!i.equalsIgnoreCase("yes") && !i.equalsIgnoreCase("no")) {
-            System.out.println("You have entered something incorrect let's go over it again \n");
+    private void InputErrorCase(String i) {
+        if (!i.equalsIgnoreCase("Y")
+                && !i.equalsIgnoreCase("N")) {
+            System.out.println
+                    ("Please enter 'Y' or 'N' only for Yes or No respectively. \n");
         }
     }
 
-    private void checkPassword() {
-        String input;
+    private void checkPasswordStrength() {
+        String inputPassword;
 
-        System.out.print("\nEnter your password:");
-        input = userINPUT.next();
+        System.out.print("\nEnter your password: ");
+        inputPassword = userINPUT.next();
 
-        final Password p = new Password(input);
+        final Password checkPassword = new Password(inputPassword); // Create a Password object.
 
-        System.out.println(p.calculateScore());
+        System.out.println
+                (checkPassword.calculateScore()); // Calculate Password Score and display it.
     }
 
     private void displayMainMenu() {  // Prints the main menu of the program.

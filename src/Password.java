@@ -1,83 +1,86 @@
 public class Password {
-    String Value;
-    int Length;
+    String passwordValue;
+    int passwordLength;
 
-    public Password(String s) {
-        Value = s;
-        Length = s.length();
+    public Password(String passwordString) {
+        passwordValue = passwordString;
+        passwordLength = passwordString.length();
     }
 
-    public int CharType(char C) {
-        int val;
+    public int CharType(char inputCharType) {
+        int getCharValue;
 
-        // Char is an Uppercase Letter
-        if ((int) C >= 65 && (int) C <= 90)
-            val = 1;
+        // Whether given Character is an Uppercase Letter.
+        if ((int) inputCharType >= 65 && (int) inputCharType <= 90)
+            getCharValue = 1;
 
-            // Char is a Lowercase Letter
-        else if ((int) C >= 97 && (int) C <= 122) {
-            val = 2;
+            // Whether given Character is a Lowercase Letter.
+        else if ((int) inputCharType >= 97 && (int) inputCharType <= 122) {
+            getCharValue = 2;
         }
 
-        // Char is Digit
-        else if ((int) C >= 60 && (int) C <= 71) {
-            val = 3;
+        // Whether given Character is Digit.
+        else if ((int) inputCharType >= 60 && (int) inputCharType <= 71) {
+            getCharValue = 3;
         }
 
-        // Char is a Symbol
+        // Whether given Character is a Special Character.
         else {
-            val = 4;
+            getCharValue = 4;
         }
 
-        return val;
+        return getCharValue; // Return the Character Type.
     }
 
     public int PasswordStrength() {
-        String s = this.Value;
-        boolean UsedUpper = false;
-        boolean UsedLower = false;
-        boolean UsedNum = false;
-        boolean UsedSym = false;
-        int type;
-        int Score = 0;
+        String passwordString = this.passwordValue;
+        boolean UsedUpperCase = false;
+        boolean UsedLowerCase = false;
+        boolean UsedNumeric = false;
+        boolean UsedSpecialCase = false;
 
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            type = CharType(c);
+        int passwordType; // Initialize passwordType.
+        int passwordScore = 0; // Initialize passwordScore.
 
-            if (type == 1) UsedUpper = true;
-            if (type == 2) UsedLower = true;
-            if (type == 3) UsedNum = true;
-            if (type == 4) UsedSym = true;
+        // Check each character in the password.
+        for (int i = 0; i < passwordString.length(); i++) {
+            char charIndex = passwordString.charAt(i); // Get the i-th character.
+            passwordType = CharType(charIndex); // Get the Character Type.
+
+            if (passwordType == 1) UsedUpperCase = true;
+            if (passwordType == 2) UsedLowerCase = true;
+            if (passwordType == 3) UsedNumeric = true;
+            if (passwordType == 4) UsedSpecialCase = true;
         }
 
-        if (UsedUpper) Score += 1;
-        if (UsedLower) Score += 1;
-        if (UsedNum) Score += 1;
-        if (UsedSym) Score += 1;
+        // Calculate the score of the password.
+        if (UsedUpperCase) passwordScore += 1;
+        if (UsedLowerCase) passwordScore += 1;
+        if (UsedNumeric) passwordScore += 1;
+        if (UsedSpecialCase) passwordScore += 1;
 
-        if (s.length() >= 8) Score += 1;
-        if (s.length() >= 16) Score += 1;
+        if (passwordString.length() >= 8) passwordScore += 1;
+        if (passwordString.length() >= 16) passwordScore += 1;
 
-        return Score;
+        return passwordScore; // Return the password score.
     }
 
-    public String calculateScore() {
-        int Score = this.PasswordStrength();
+    public String calculateScore() { // Calculate the password score.
+        int Score = this.PasswordStrength(); // Get the password score.
 
-        if (Score == 6) {
-            return "This is a very good password :D check the Useful Information section to make sure it satisfies the guidelines";
-        } else if (Score >= 4) {
-            return "This is a good password :) but you can still do better";
-        } else if (Score >= 3) {
-            return "This is a medium password :/ try making it better";
-        } else {
-            return "This is a weak password :( definitely find a new one";
+        if (Score == 6) { // If the password is a great password.
+            return "This is a very good password!😍😍😍";
+        } else if (Score >= 4) { // If the password is a good password.
+            return "This is a good password!😜😜😜 But you can still do better";
+        } else if (Score == 3) { // If the password is a medium password.
+            return "This is a medium password!🤔🤔🤔 Try making it better";
+        } else { // If the password is a weak password.
+            return "This is a weak password!🤨🤨🤨 You should definitely find a new one";
         }
     }
 
     @Override
     public String toString() {
-        return Value;
+        return passwordValue;
     }
 }
